@@ -26,7 +26,7 @@ xI = 0.0
 yI = 0.0
 zI = 0.0
 
-def reg_update():
+def reg_update(): #state update process
     x_accel = drone.get_acceleration_x()
     y_accel = drone.get_acceleration_y()
 
@@ -41,7 +41,7 @@ def reg_update():
     y_pos += 0.5 * y_accel * dt ** 2
     z_pos = drone.get_barometer() #barometer units
 
-def doPID(x_set, y_set, z_set):
+def doPID(x_set, y_set, z_set): #fly to target process
     x_error = x_set - x_pos
     xI += xkI * x_error * dt
 
@@ -65,7 +65,7 @@ def doPID(x_set, y_set, z_set):
 
     drone.send_rc_control(round(x_u), round(y_u), round(z_u))
     
-def goPID(x_set, y_set, z_set, x_tol, y_tol, z_tol):
+def goPID(x_set, y_set, z_set, x_tol, y_tol, z_tol): #call to fly
     keep_going = True
 
     while keep_going == True:
