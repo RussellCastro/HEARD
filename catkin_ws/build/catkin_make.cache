@@ -1,0 +1,2 @@
+heard
+-DCATKIN_DEVEL_PREFIX=/home/camdenbartlo/HEARD/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/camdenbartlo/HEARD/catkin_ws/install -G Unix Makefiles
