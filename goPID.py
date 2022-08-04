@@ -17,7 +17,7 @@ x_pos = 0.0
 y_pos = 0.0
 z_pos = 0.0
 
-xkP = 1.0
+xkP = 0.10
 xkI = 0.0
 xkD = 0.0
 
@@ -41,7 +41,7 @@ def reg_update(): #state update process
     global x_center
 
     z_pos = drone.get_barometer() #barometer units
-    print('x pos: ' + str(x_pos))
+    print('x pos: ' + str(x_center))
     print('y pos: ' + str(y_pos))
     print('z pos: ' + str(z_pos))
 
@@ -50,7 +50,10 @@ def reg_update(): #state update process
     corners, ids, rejects = cv2.aruco.detectMarkers(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), arucoDict)
     detection = cv2.aruco.drawDetectedMarkers(img, corners, borderColor=(255,0,0))
     cv2.imshow('stream', detection)
+    cv2.imshow('detection', detection)
     try:
+        cv2.waitKey(1)
+
         real_corners = corners[0]
         x_size = abs(real_corners[0,0,0] - real_corners[0,2,0])
         y_dist = focal / x_size
@@ -62,7 +65,7 @@ def reg_update(): #state update process
 #PID relative to tag
 def doTagPID(y_set, z_set, x_set=640):
     global xI, yI, zI
-    x_error = x_set - x_pos
+    x_error = x_set - x_center
     xI += xkI * x_error * dt
 
     x_u = xkP * x_error #x effort
@@ -87,10 +90,10 @@ def doTagPID(y_set, z_set, x_set=640):
     print('y effort: ' + str(round(y_u)))
     print('z effort: ' + str(round(z_u)))
 
-    drone.send_rc_control(0, 0, 0, 0) #, round(z_u)
+    drone.send_rc_control(round(x_u), 0, 0, 0) #, round(z_u)
 
 def goPID():
-    #drone.takeoff()
+    drone.takeoff()
     #drone.move_up(20)
     keep_going = True
 
