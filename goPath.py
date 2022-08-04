@@ -2,21 +2,26 @@ import goPID
 
 #adjacency list
 route_graph = {
-    'hallway_home': ['null', 'hallway_turn'],
-    'hallway_turn': ['hallway_home', 'door_tags'],
-    'door_tags': ['hallway_turn', 'door_enter'],
-    'door_enter': ['door_tags', 'startstop_scan'],
-    'startstop_scan': ['door_enter', 'scan2'],
-    'scan2': ['startstop_scan', 'scan3'],
-    'scan3': ['scan2', 'scan4'],
-    'scan4': ['scan3', 'scan4'],
-
-
+  'hallway_home': ['null', 'hallway_turn'],
+  'hallway_turn': ['hallway_home', 'door_tags'],
+  'door_tags': ['hallway_turn', 'door_enter'],
+  'door_enter': ['door_tags', 'startstop_scan'],
+  'startstop_scan': ['door_enter', 'scan2'],
+  'scan2': ['startstop_scan', 'scan3'],
+  'scan3': ['scan2', 'scan4'],
+  'scan4': ['scan3', 'scan4']
 }
 
 #position list
 point_poses = {
-
+  'hallway_home': [0.0,0.0,0.0],
+  'hallway_turn': [0.0,0.0,0.0],
+  'door_tags': [0.0,0.0,0.0],
+  'door_enter': [0.0,0.0,0.0],
+  'startstop_scan': [0.0,0.0,0.0],
+  'scan2': [0.0,0.0,0.0],
+  'scan3': [0.0,0.0,0.0],
+  'scan4': [0.0,0.0,0.0]
 }
 
 #go to door

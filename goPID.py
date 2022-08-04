@@ -73,7 +73,4 @@ def goPID(x_set, y_set, z_set, x_tol, y_tol, z_tol): #call to fly
         doPID(x_set, y_set, z_set)
         time.sleep(dt)
 
-        if (x_set - x_set * x_tol < x_pos > x_set + x_set * x_tol
-        & y_set - y_set * y_tol < y_pos > y_set + y_set * y_tol
-        & z_set - z_set * z_tol < z_pos > z_set + z_set * z_tol):
-            keep_going = False
+goPID()
