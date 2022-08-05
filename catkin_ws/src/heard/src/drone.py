@@ -27,10 +27,12 @@ class Drone:
 
         self.bridge = CvBridge()
 
+
     ## TODO PATHING NODE CALLBACK METHOD
     ## TODO SOUND NODE CALLBACK METHOD 
 
-    def to_forward_cam( self ):
+
+    def to_forward_cam( self, data ):
         if type( self.tello.cap ) != type( None ):
             self.tello.cap.release()
 
@@ -40,7 +42,8 @@ class Drone:
         
         self.on_forward_cam = True
 
-    def to_downward_cam( self ):
+
+    def to_downward_cam( self, data ):
         if type( self.tello.cap ) != type( None ):    
             self.tello.cap.release()
 
@@ -49,6 +52,7 @@ class Drone:
         self.tello.get_video_capture()
 
         self.on_forward_cam = False
+
 
     def run( self ):
         self.tello.connect()
@@ -66,6 +70,7 @@ class Drone:
         self.tello.streamoff()
 
         rospy.spin()
+
 
 if __name__ == "__main__":
     try:
