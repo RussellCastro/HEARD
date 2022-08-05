@@ -21,7 +21,7 @@ xkP = 0.10
 xkI = 0.0
 xkD = 0.0
 
-ykP = -1.0
+ykP = 0.003
 ykI = 0.0
 ykD = 0.0
 
@@ -53,7 +53,6 @@ def reg_update(): #state update process
     cv2.imshow('detection', detection)
     try:
         cv2.waitKey(1)
-
         real_corners = corners[0]
         x_size = abs(real_corners[0,0,0] - real_corners[0,2,0])
         y_dist = focal / x_size
@@ -63,7 +62,7 @@ def reg_update(): #state update process
         pass
 
 #PID relative to tag
-def doTagPID(y_set, z_set, x_set=640):
+def doTagPID(z_set, x_set=640, y_set=20):
     global xI, yI, zI
     x_error = x_set - x_center
     xI += xkI * x_error * dt
@@ -99,7 +98,7 @@ def goPID():
 
     while keep_going == True:
         reg_update()
-        doTagPID(0, 1000)
+        doTagPID(1000)
         time.sleep(dt)
 
 goPID()
