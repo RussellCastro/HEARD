@@ -1,0 +1,8 @@
+prefix=/home/camdenbartlo/HEARD/catkin_ws/devel
+
+Name: heard
+Description: Description of heard
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
