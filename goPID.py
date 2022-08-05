@@ -62,7 +62,7 @@ def reg_update(): #state update process
         pass
 
 #PID relative to tag
-def doTagPID(z_set, x_set=640, y_set=20):
+def doTagPID(x_set=640, y_set=20):
     global xI, yI, zI
     x_error = x_set - x_center
     xI += xkI * x_error * dt
@@ -78,31 +78,53 @@ def doTagPID(z_set, x_set=640, y_set=20):
     + yI
     + ykD * y_error / dt
 
-    z_error = z_set - z_pos
-    xI += xkI * x_error * dt
-
-    z_u = zkP * z_error #z effort
-    + xI
-    + zkD * z_error / dt
-
     print('x effort: ' + str(round(x_u)))
     print('y effort: ' + str(round(y_u)))
     print('z effort: ' + str(round(z_u)))
 
-    drone.send_rc_control(round(x_u), 0, 0, 0) #, round(z_u)
+    drone.send_rc_control(round(x_u), round(y_u), round(z_u), 0) #, round(z_u)
 
-def goPID():
-    drone.takeoff()
+def doZPID(z_set):
+    global zI
+    z_error = z_set - z_pos
+    zI += zkI * z_error * dt
+
+    z_u = zkP * z_error #z effort
+    + zI
+    + zkD * z_error / dt
+
+    print('z effort: ' + str(round(z_u)))
+
+    drone.send_rc_control(0,0, round(z_u), 0) #, round(z_u)
+
+def goTagPID(desired_x, desired_y):
     #drone.move_up(20)
     keep_going = True
 
     while keep_going == True:
         reg_update()
-        doTagPID(1000)
+        doTagPID(x_set=desired_x, y_set=desired_y)
         time.sleep(dt)
+        if(desired_x - 5 < x_pos < desired_x + 5
+        & desired_y - 5 < y_pos < desired_y + 5):
+            keep_going = False
 
-goPID()
+def goZPID(desired_z):
+    #drone.move_up(20)
+    keep_going = True
 
+    while keep_going == True:
+        reg_update()
+        doZPID(desired_z)
+        time.sleep(dt)
+        if(desired_z - 5 < z_pos < desired_z + 5):
+            keep_going = False
+
+def turn_bb(turn_set):
+    direction = turn_set / abs(turn_set)
+    drone.send_rc_control(0,0,0,20 * direction)
+    time.sleep(abs(turn_set) / 90)
+    drone.send_rc_control(0,0,0,0)
 # def doPID(x_set, y_set, z_set):
 #     global xI, yI, zI
 #     x_error = x_set - x_pos

@@ -55,3 +55,7 @@ def simple_path(start_node, target_node, direction):
     current_node = route_graph[current_node][index_dir]
 
   return output_path
+
+def turn_to_door(scan_height):
+  goPID.turn_bb(-90)
+  goPID.goZPID(scan_height)
