@@ -7,8 +7,6 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import Empty
 
 class Detector:
-
-
     def __init__( self ):
         rospy.init_node( "detector", anonymous = True ) 
 
